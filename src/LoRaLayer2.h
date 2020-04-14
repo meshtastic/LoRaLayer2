@@ -71,7 +71,7 @@ public:
     long setInterval(long interval);
 
     // Wrappers for packetBuffers
-    void writePacket(uint8_t* data, size_t length);
+    void writePacket(Packet * data, size_t length);
     Packet readPacket();
     int writeData(uint8_t* data, size_t length);
     Packet readData();

@@ -75,17 +75,14 @@ int LL2Class::getRouteEntry(){
 /* General purpose utility functions
 */
 uint8_t LL2Class::hexDigit(char ch){
+  ch = tolower(ch);
   if(( '0' <= ch ) && ( ch <= '9' )){
     ch -= '0';
   }else{
     if(( 'a' <= ch ) && ( ch <= 'f' )){
       ch += 10 - 'a';
     }else{
-      if(( 'A' <= ch ) && ( ch <= 'F' ) ){
-        ch += 10 - 'A';
-      }else{
-        ch = 16;
-      }
+      ch = 0; // Unknown claim zero (better than 16, because it won't corrupt adjacent digits)
     }
   }
   return ch;
@@ -121,14 +118,11 @@ long LL2Class::setInterval(long interval){
 
 /* Layer 1 wrappers for packetBuffers
 */
-void LL2Class::writePacket(uint8_t* data, size_t length){
+void LL2Class::writePacket(Packet *data, size_t length){
     if(length <= 0){
         return;
     }
-    data[length] = '\0';
-    Packet packet;
-    memcpy(&packet, data, length);
-    L1toL2.write(packet);
+    L1toL2.write(*data);
     return;
 }
 

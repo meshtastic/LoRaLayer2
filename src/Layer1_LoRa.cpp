@@ -86,8 +86,9 @@ void Layer1Class::onReceive(int packetSize) {
         incoming[length] = (char)LoRa.read();
         length++;
     }
-    uint8_t* data = ( uint8_t* ) incoming;
-    LL2.writePacket(data, length);
+
+    // We assume it is a Packet
+    LL2.writePacket((Packet *) incoming, length);
     return;
 }
 
